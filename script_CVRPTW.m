@@ -2,12 +2,8 @@
 
 %% Entrada de datos
 
-dirIni = pwd;
-dir = 'C:\Users\Manuel Valenzuela\Documents\Desarrollo\Programas en MATLAB\VRP\PSolomon';
-cd(dir)
-
 % Leo datos del problema
-fname = 'rc106';                % archivo de datos
+fname = 'r101';                % archivo de datos: r101 o r102
 A = importdata(strcat(fname,'.txt'), ' ',9);
 v = sscanf(A.textdata{5},'%d');
 numeroVehiculos = v(1);
@@ -39,10 +35,6 @@ for i=1:nRutas
    t = tmp{1}'+1;
    u{i} = [1 t(1:end-1) 1];
 end
-
-
-% Regreso al directorio original
-cd(dirIni)
 
 
 %% Gráfica de clientes
