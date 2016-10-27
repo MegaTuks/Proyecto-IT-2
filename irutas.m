@@ -1,12 +1,22 @@
 function [xi]= irutas(nc)
 % nc = vector numero de clientes
-global D
+global D , C , d
 
 % Genera 1 cliente por ruta, es decir 100 rutas iniciales
 nr=length(nc)-1;
 sol=cell(1,nr); % array con las rutas
-for i=1:nr
-    sol{i}=[1,i+1,1];
+start = cell(1);
+i = 2;
+j=1;
+
+while(i > nr)
+  start{j}(end+1) = 1;
+  while(C>sum(d(start)))
+    start{j}(end+1)= i;
+    i+1;
+   end 
+   start{j}(end+1)= 1;
+   j+1;
 end
 
 % Calcula el vector de costos para las rutas iniciales
