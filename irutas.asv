@@ -10,13 +10,12 @@ j=0;
 
 while(i <= nr)
     j=j+1;
-    ractual=1;    % iniciador de rutas
-    while(C>=sum(d(ractual)+d(i)) && i<=101)
-        ractual(end+1)= i;
+    ractual=[1];    % iniciador de rutas
+    while(C>sum(d(ractual)))
+        semilla{j}(end+1)= i;
         i=i+1;
+        disp(i)
     end
-    ractual(end+1)=1;
-    semilla{j}=ractual;
 end
 nrutas=j;   % numero de rutas generadas
 % Calcula el vector de costos para las rutas iniciales
