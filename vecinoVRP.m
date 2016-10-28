@@ -64,8 +64,13 @@ while v == 0
                 end
             end
             v=1;
-        else
-            pos=randi([2,length(ruta2)-1]);
+        else % Splitear las rutas
+            lr2=length(ruta2);
+            aa=2; %contador
+            ruta3=1;
+            while sum(d(ruta3)+d(i))<=C && i<=101
+                
+            end
         end
     end
 end

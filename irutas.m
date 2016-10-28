@@ -1,24 +1,29 @@
 function [xi]= irutas(nc)
+% Es un greedy algorithm basado en first-fit approach
 % nc = vector numero de clientes
 global D  C  d
 
 % Genera la semilla
-nr=length(nc)-1;    %numero de clientes (sin el almacen)
+nclientes=length(nc)-1;    % numero de clientes (sin el almacen)
+prueba=true(1,nclientes);  % vector lógico para el algoritmo
+prueba(1)=0;    % el primero es falso porque es el almacen
 semilla = cell(1);
-i = 2;
-j=0;
+i=0;  % contador para las rutas
 
-while(i <= nr)
-    j=j+1;
+while any(prueba)
+    i=i+1;
     ractual=1;    % iniciador de rutas
-    while(C>=sum(d(ractual)+d(i)) && i<=101)
-        ractual(end+1)= i;
-        i=i+1;
+    pos=find(prueba); % indices de los clientes no ruteados
+    for j=1:length(pos)
+        if sum(d(ractual))+ d(pos(j)) <= C
+            ractual=[ractual,pos(j)];
+            prueba(pos(j))=0;
+        end
     end
-    ractual(end+1)=1;
-    semilla{j}=ractual;
+    ractual=[ractual,1];
+    semilla{i}=ractual;
 end
-nrutas=j;   % numero de rutas generadas
+nrutas=i;   % numero de rutas generadas
 % Calcula el vector de costos para las rutas iniciales
 costo=zeros(1,nrutas);
 for nRuta=1:nrutas
