@@ -36,12 +36,12 @@ xi = irutas(nc); %Plata: seria cuestion de modificar irutas para
 
 %% Llamado a Recocido
 clc;
-c0 = 100;               % temperatura inicial
+c0 = 1800;               % temperatura inicial
 p.cadIntAcep = 100;
 p.cadInt = 400;
 p.maxCad = 3;
-p.frecImp = 50;
-p.alfa = 0.99;
+p.frecImp = 10;
+p.alfa = 0.95;
 p.variarC = 0;
 % para optimizar, se guarda en la x la solucion (las rutas) y el vector con
 % los costos de cada ruta.

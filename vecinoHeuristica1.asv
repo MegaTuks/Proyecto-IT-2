@@ -14,5 +14,6 @@ function [vecin,cam] =  vecinoHeuristica1(sol,lon)
             
             % Realiza la inversion de la subruta desde n1 hasta n2
             sol{cam}(n1:n2) = sol{cam}(n2:-1:n1);
+            v = 1; % permutacion, siempre se cumple la restriccion
         end
  vecin = sol;
