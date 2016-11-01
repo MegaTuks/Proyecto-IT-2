@@ -1,6 +1,6 @@
 function [vecin,cam] =  vecinoHeuristica1(sol,lon)
-
 % Hacer inversion de una parte de ruta
+
         cam = randi([1,lon]); % el numero de la ruta a cambiar
         n = length(sol{cam})-2; % longitud de dicha ruta menos dos por el
         % almacen

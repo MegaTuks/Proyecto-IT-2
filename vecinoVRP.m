@@ -8,9 +8,6 @@ function [vecino] = vecinoVRP(t)
 sol=t{1}; % sol es el conjunto de rutas, la solucion
 costo = t{2}; % vector con los costos
 
-% Hacer global el vector de demandas (d) y la matriz de distancias (D)
-global D
-
 lon=length(sol); % lon = numero de rutas dentro de la solucion
 % cam = vector con la(s) rutas cambiadas
 % Nota, el codigo esta hecho considerando que el almacen es el cliente 1, y
@@ -22,23 +19,10 @@ else
     [sol,cam,costo] = vecinoHeuristica2(sol,lon,costo);
 end
 
-% Calcula el nuevo vector de costos segun la(s) rutas modificadas
+% Calcula el nuevo vector de costos segun la(s) rutas modificadas, si es
+% que las hay
 if ~isempty(cam)
-    for nRuta=1:length(cam)
-        din = 0;
-        ruta = sol{cam(nRuta)}; % toma una de las rutas cambiadas
-        for ind=2:length(ruta)
-            j = ruta(ind);
-            i = ruta(ind-1);
-            din = din + D(i,j);
-        end
-        din = din + D(ruta(end-1),ruta(end));
-        if din>0
-            costo(cam(nRuta))=din;
-        else
-            sol(cam(nRuta))=[]; % elimina esa ruta ya que se quedo vacia
-            costo(cam(nRuta))=[]; % 0 costo = no hay ruta
-        end
-    end
+costo = dineros(sol,costo,cam);
 end
+
 vecino={sol,costo}; % guarda el vecino con el formato usado

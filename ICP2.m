@@ -30,7 +30,7 @@ D = zeros(length(nc)); % matriz con distancias
    end
    
 %% Inicializar las rutas
-xi = irutas2(nc); %Plata: seria cuestion de modificar irutas para
+xi = irutas(nc); %Plata: seria cuestion de modificar irutas para
                          % que de unas mejores rutas iniciales
 
 
@@ -38,13 +38,13 @@ xi = irutas2(nc); %Plata: seria cuestion de modificar irutas para
 %2.6255e+03
 %1.0303e+03
 clc;
-c0 = 200;               % temperatura inicial
+c0 = 300;               % temperatura inicial
 p.beta=1.2;
 p.minRazAcep=0.95;
 p.cadIntAcep = 150;
 p.cadInt = 500;
 p.maxCad = 5;
-p.frecImp = 100;
+p.frecImp = 500;
 p.alfa = 0.95;
 p.variarC = 0;
 % para optimizar, se guarda en la x la solucion (las rutas) y el vector con
@@ -56,3 +56,4 @@ p.Imp = @imprime;      % funcion de impresion
 p.min = 1;
 
 r=recocido(p,c0,338);
+%r=recocido(p,c0);

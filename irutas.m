@@ -1,7 +1,8 @@
 function [xi]= irutas(nc)
 % Es un greedy algorithm basado en first-fit approach
+
 % nc = vector numero de clientes
-global D  C  d
+global C  d
 
 % Genera la semilla
 nclientes=length(nc)-1;    % numero de clientes (sin el almacen)
@@ -26,14 +27,6 @@ end
 nrutas=i;   % numero de rutas generadas
 % Calcula el vector de costos para las rutas iniciales
 costo=zeros(1,nrutas);
-for nRuta=1:nrutas
-    din = 0;
-    ruta = semilla{nRuta}; % toma una ruta
-    for ind=2:length(ruta)
-        j = ruta(ind);
-        i = ruta(ind-1);
-        din = din + D(i,j);
-    end
-    costo(nRuta) = din + D(ruta(end-1),ruta(end));
-end
+cam=(1:nrutas);
+costo=dineros(semilla,costo,cam);
 xi={semilla,costo}; % guarda el vecino con el formato usado
