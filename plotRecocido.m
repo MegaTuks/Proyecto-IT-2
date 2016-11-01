@@ -1,4 +1,4 @@
-function [X,prom,desv] = plotRecocido(p,n,varargin)
+function [X,prom,desv,mruta,mcosto] = plotRecocido(p,n,varargin)
 % [x,prom,desv] = plotrecocido(p,n,c0)
 % [x,prom,desv] = plotrecocido(p,n,c0,semilla)
 %
@@ -20,7 +20,6 @@ function [X,prom,desv] = plotRecocido(p,n,varargin)
 %*   valenzuela@itesm.mx                                         *
 %*   http://homepages.mty.itesm.mx/valenzuela                    *
 %*                                                               *
-%*   Departamento de Mecatrónica y Automatización                *
 %*   Tecnológico de Monterrey, Campus Monterrey                  *
 %*   Monterrey, N.L., México                                     *
 %*                                                               *
@@ -40,12 +39,19 @@ end
 
 fprintf('\n*** Iniciando corrida #1 ***\n')
 res = recocido(p,c0,semilla);
+mruta = res.x{end-1};    % modificacion para guardar la mejor ruta
+mcosto = sum(res.x{end}); % modificacion para guardar el mejor costo
 X = res.intentos;
 Y = res.f;
 nx = length(X);
 for i=2:n
 fprintf('\n*** Iniciando corrida #%d ***\n', i)
    res = recocido(p,c0);
+   acosto=sum(res.x{end});
+   if acosto < mcosto
+      mcosto=acosto;
+      mruta = res.x{end-1};
+   end
    mx = length(res.intentos);
    if mx < nx
       res.f = [res.f; res.f(mx)*ones(nx-mx,1)];
@@ -68,4 +74,3 @@ if isa(obj,'function_handle')
    obj = func2str(obj);
 end
 title(['curva de mejor encontrado para la función "',obj,'"'])
-

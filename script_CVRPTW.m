@@ -59,7 +59,6 @@ hold off
 %% Gráfica y evaluación de una solución u
 dg=5;
 capacidad=200;
-
 costoVRP(nc,x,y,d,e,l,s,capacidad)
 [costo,b,cap,term] = costoVRP(u);
 delta = 0.5;
