@@ -21,8 +21,8 @@ if randi([0,1]) == 0
 else
     [sol,cam,costo] = vecinoHeuristica2(sol,lon,costo);
 end
-
 % Calcula el nuevo vector de costos segun la(s) rutas modificadas
+
 if ~isempty(cam)
     for nRuta=1:length(cam)
         din = 0;
@@ -36,7 +36,7 @@ if ~isempty(cam)
         if din>0
             costo(cam(nRuta))=din;
         else
-            sol(cam(nRuta))=[]; % elimina esa ruta ya que se quedo vacia
+            sol(cam(nRuta))=[]; % elimina esa ruta ya que se quedo vacioa
             costo(cam(nRuta))=[]; % 0 costo = no hay ruta
         end
     end

@@ -1,4 +1,4 @@
-function [vecin,cam,c] = vecinoHeuristica2(sol,lon,costo)
+function [vecin,cam,costo] = vecinoHeuristica2(sol,lon,costo)
 
 global C d
 c=costo;
@@ -18,7 +18,7 @@ else
     vectorT(m2) = [];
 end
 a=randi([2,length(ruta1)-1]);   % empieza en 2 por el almacen
-while (sum(d(ruta2)) + d(ruta1(a))>C && ~isempty(vectorT))
+while (sum(d(ruta2)) + d(ruta1(a)) > C && ~isempty(vectorT))
     m3 = randi([1,length(vectorT)]);
     m2 = vectorT(m3);
     ruta2 = sol{m2};
