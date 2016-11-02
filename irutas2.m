@@ -7,9 +7,8 @@ sol=cell(1,nr); % array con las rutas
 for i=1:nr
     sol{i}=[1,i+1,1];
 end
-
 % Calcula el vector de costos para las rutas iniciales
 costo=zeros(1,nr);
 cam=(1:nr);
-costo=dineros(semilla,costo,cam);
+costo=dineros(sol,costo,cam);
 xi={sol,costo}; % guarda el vecino con el formato usado

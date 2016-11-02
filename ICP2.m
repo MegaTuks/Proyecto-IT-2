@@ -51,12 +51,18 @@ hold off
 % Funciones disponibles: irutas, irutas2
 % irutas usa un algoritmo de first fit
 % irutas2 genera 100 rutas iniciales
-xi = irutas(nc);
-disp('Se han generado las rutas iniciales')
+finicial=0;
+if finicial == 0
+    xi = irutas(nc);
+    disp('Se han generado las rutas iniciales First Fit')
+else
+    xi = irutas2(nc);
+    disp('Se han generado las rutas iniciales 1 ruta por cliente')
+end
 
 %% Llamado a Recocido
 clc; close all;
-c0 = 300;               % temperatura inicial
+c0 = 300;               % temperatura inicial, 300 funciona bien
 %p.beta=1.2;            % descomentar beta, minRaz, y poner c0=0 si se
 %p.minRazAcep=0.95;     % quiere calcular una buena c0
 p.cadIntAcep = 150;
@@ -72,11 +78,12 @@ p.Imp = @imprime;      % funcion de impresion
 p.min = 1;
 
 tic
-tipo = 1;
+% Hacer 1 recocido, o n recocidos + curva de mejor encontrado
+tipo = 0;
 if tipo == 0
-    res = recocido(p,c0,338);
+    res = recocido(p,c0,131); % seed: 338
 else
-    [xp,prom,desv,mruta,mcosto] = plotRecocido(p,20,c0,8799);
+    [xp,prom,desv,mruta,mcosto] = plotRecocido(p,20,c0,8799); %seed 8799
 end
 tiempo=toc;
 %% Gráfica y evaluación de una solución u
