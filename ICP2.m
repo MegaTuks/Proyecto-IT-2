@@ -52,15 +52,16 @@ hold off
 % irutas usa un algoritmo de first fit
 % irutas2 genera 100 rutas iniciales
 xi = irutas(nc);
+disp('Se han generado las rutas iniciales')
 
 %% Llamado a Recocido
-clc
+clc; close all;
 c0 = 300;               % temperatura inicial
 %p.beta=1.2;            % descomentar beta, minRaz, y poner c0=0 si se
 %p.minRazAcep=0.95;     % quiere calcular una buena c0
 p.cadIntAcep = 150;
 p.cadInt = 500;
-p.maxCad = 5;
+p.maxCad = 6;
 p.frecImp = 500;
 p.alfa = 0.95;
 p.variarC = 0;
@@ -70,15 +71,16 @@ p.FcnVec = @vecinoVRP;    % funcion de vecindad
 p.Imp = @imprime;      % funcion de impresion
 p.min = 1;
 
+tic
 tipo = 1;
 if tipo == 0
     res = recocido(p,c0,338);
 else
-    [xp,prom,desv,mruta,mcosto] = plotRecocido(p,3,c0,8799);
+    [xp,prom,desv,mruta,mcosto] = plotRecocido(p,20,c0,8799);
 end
-
+tiempo=toc;
 %% Gráfica y evaluación de una solución u
-clc
+clc; close all;
 if tipo == 0
     u=res.x{length(res.x)-1}; % Guarda la mejor solucion desde recocido
     costo=sum(res.x{length(res.x)}); % Es el costo total
