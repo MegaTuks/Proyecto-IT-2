@@ -16,17 +16,17 @@ b=t{3}; % vector con los tiempos
 lon=length(sol); % lon = numero de rutas dentro de la solucion
 mal=1;
 cont=0;
-while mal == 1 && cont<100
+while mal == 1 && cont<50
     cont=cont+1;
-    if randi([0,1]) == 0
-        [newsol,cam] = vecinoHeuristica1(sol,lon);
-    else
-        [newsol,cam,newcosto] = vecinoHeuristica2(sol,lon,costo);
-    end
+    [newsol,cam,newcosto] = vecinoHeuristica2(sol,lon,costo);
     % Calcula el nuevo vector de costos segun la(s) rutas modificadas, si es
     % que las hay
     if ~isempty(cam)
-        [newcosto,newb,mal] = dinerostw(sol,costo,cam,b);
+        [newcosto,newb,mal] = dinerostw(newsol,newcosto,cam,b);
     end
 end
-vecino={newsol,newcosto,newb}; % guarda el vecino con el formato usado
+if mal == 0
+    vecino={newsol,newcosto,newb}; % guarda el vecino con el formato usado
+else
+    vecino = {sol,costo,b};
+end

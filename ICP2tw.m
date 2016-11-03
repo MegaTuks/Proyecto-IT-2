@@ -51,18 +51,27 @@ hold off
 % Funciones disponibles: irutas, irutas2
 % irutas usa un algoritmo de first fit
 % irutas2 genera 100 rutas iniciales
-xi = irutas2tw(nc);
-disp('Se han generado las rutas iniciales 1 ruta por cliente')
+
+finicial=0;
+if finicial == 0
+    xi = irutastw(nc);
+    disp(['Se han generado las ' int2str(length(xi{1}))...
+        ' rutas por Time-Oriented, Nearest-Neighbor Heuristic'])
+else
+    xi = irutas2tw(nc);
+    disp('Se han generado las rutas iniciales 1 ruta por cliente')
+end
+
 
 %% Llamado a Recocido
 clc; close all;
-c0 = 300;               % temperatura inicial, 300 funciona bien
-%p.beta=1.2;            % descomentar beta, minRaz, y poner c0=0 si se
+c0 = 100;               % temperatura inicial, 300 funciona bien
+%p.beta=1.25;            % descomentar beta, minRaz, y poner c0=0 si se
 %p.minRazAcep=0.95;     % quiere calcular una buena c0
 p.cadIntAcep = 150;
-p.cadInt = 500;
-p.maxCad = 6;
-p.frecImp = 25;
+p.cadInt = 400;
+p.maxCad = 5;
+p.frecImp = 250;
 p.alfa = 0.95;
 p.variarC = 0;
 p.x0 = xi;  % xi = {sol,costo} sol = array rutas, costo = vector costos
@@ -75,16 +84,16 @@ tic
 % Hacer 1 recocido, o n recocidos + curva de mejor encontrado
 tipo = 0;
 if tipo == 0
-    res = recocido(p,c0,131); % seed: 338
+    res = recocido(p,c0); % seed: 375
 else
-    [xp,prom,desv,mruta,mcosto] = plotRecocido(p,20,c0,8799); %seed 8799
+    [xp,prom,desv,mruta,mcosto] = plotRecocido(p,20,c0,4127); %seed 4127
 end
 tiempo=toc;
 %% Gráfica y evaluación de una solución u
 clc; close all;
 if tipo == 0
-    u=res.x{length(res.x)-1}; % Guarda la mejor solucion desde recocido
-    costo=sum(res.x{length(res.x)}); % Es el costo total
+    u=res.x{length(res.x)-2}; % Guarda la mejor solucion desde recocido
+    costo=sum(res.x{length(res.x)-1}); % Es el costo total
 else
     u=mruta;
     costo=mcosto;

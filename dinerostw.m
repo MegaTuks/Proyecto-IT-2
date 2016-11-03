@@ -14,7 +14,7 @@ for nRuta=1:length(cam)
         j = ruta(ind);
         i = ruta(ind-1);
         b(j) = max(e(j),b(i)+s(i)+D(i,j));
-        if b(j)<e(j) || b(j)>l(j)
+        if b(j)>l(j)
             mal=1;
             return
         end
