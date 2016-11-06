@@ -3,7 +3,7 @@
 %% Entrada de datos
 
 % Leo datos del problema
-fname = 'r101';                % archivo de datos: r101 o r102
+fname = 'r102';                % archivo de datos: r101 o r102
 A = importdata(strcat(fname,'.txt'), ' ',9);
 v = sscanf(A.textdata{5},'%d');
 numeroVehiculos = v(1);

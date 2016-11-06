@@ -62,19 +62,18 @@ else
     disp('Se han generado las rutas iniciales 1 ruta por cliente')
 end
 
-
 %% Llamado a Recocido
 clc; close all;
-c0 = 100;               % temperatura inicial, 300 funciona bien
+c0 = 80;               % r101: 80, r102: 125
 %p.beta=1.25;            % descomentar beta, minRaz, y poner c0=0 si se
 %p.minRazAcep=0.95;     % quiere calcular una buena c0
 p.cadIntAcep = 150;
-p.cadInt = 400;
-p.maxCad = 5;
+p.cadInt = 400; % r101: 400, r102 450
+p.maxCad = 4;   % r101: 4, r101: 5
 p.frecImp = 250;
-p.alfa = 0.95;
+p.alfa = 0.98;
 p.variarC = 0;
-p.x0 = xi;  % xi = {sol,costo} sol = array rutas, costo = vector costos
+p.x0 = xi;  % xi = {sol,costo,b}
 p.FcnObj = @fobjVRP;         % funcion objetivo
 p.FcnVec = @vecinoVRPtw;    % funcion de vecindad
 p.Imp = @imprime;      % funcion de impresion
@@ -82,21 +81,23 @@ p.min = 1;
 
 tic
 % Hacer 1 recocido, o n recocidos + curva de mejor encontrado
-tipo = 0;
+tipo = 1;
 if tipo == 0
-    res = recocido(p,c0); % seed: 375
+    res = recocido(p,375); % seed: 375
 else
-    [xp,prom,desv,mruta,mcosto] = plotRecocido(p,20,c0,4127); %seed 4127
+    [xp,prom,desv,mruta,mcosto,mb] = plotRecocidotw(p,10,c0,4127); %seed 4127
 end
 tiempo=toc;
 %% Gráfica y evaluación de una solución u
-clc; close all;
+close all;
 if tipo == 0
-    u=res.x{length(res.x)-2}; % Guarda la mejor solucion desde recocido
-    costo=sum(res.x{length(res.x)-1}); % Es el costo total
+    u=res.x{end-2}; % Guarda la mejor solucion desde recocido
+    costo=sum(res.x{end-1}); % Es el costo total
+    b=res.x{end}.';   % Tiempos
 else
     u=mruta;
     costo=mcosto;
+    b=mb.';
 end
 dg=5;
 cap=zeros(length(u),1);
@@ -146,3 +147,23 @@ for i=1:length(u)
     fprintf('\n')
 end
 fprintf('\n')
+
+%% Tabulación de clientes procesados
+
+r = zeros(size(e));
+for i=2:length(r)
+   for j=1:length(u)
+      if ~isempty(find(i==u{j},1))
+         r(i) = j;
+         break
+      end
+   end
+end
+cond1 = e<=b; % atender después de ready time
+cond2 = b<=l; % atender antes de due date
+fprintf('\n')
+fprintf(' nc     d       e       b       l   e<=b   b<=l  ruta\n')
+for i=2:length(nc)
+   fprintf('%3d: %4d %7.0f %7.0f %7.0f %5d %6d %5d\n',...
+      nc(i),d(i),e(i),b(i),l(i),cond1(i),cond2(i),r(i))
+end
